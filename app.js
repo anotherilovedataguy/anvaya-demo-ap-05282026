@@ -119,7 +119,7 @@ const wikiPages = [
   },
   {
     title: 'Anvaya Energy System', type: 'System Reference',
-    summary: 'How realm energy is computed, allocated, conserved, and regenerated across Anvaya. Reference for all agents.',
+    summary: 'How realm energy is computed, allocated, conserved, and regenerated across Anvaya.',
     tags: ['system', 'energy', 'realm'], status: 'system', agent: 'Orakai', updated: 'May 15, 2026'
   },
   {
@@ -183,7 +183,7 @@ function agentCard(a) {
       <h3>${a.name}</h3>
       <div class="agent-role">${a.role}</div>
       <p class="agent-desc">${a.desc}</p>
-      <span class="pill ${sc}" style="margin-top:8px">${sl}</span>
+      <span class="pill ${sc}">${sl}</span>
     </div>
   </article>`;
 }
@@ -195,7 +195,7 @@ function agentFullCard(a) {
   return `<article class="agent-full-card">
     <div class="agent-full-art" style="background:${a.bg}">
       <div class="agent-full-avatar">${a.emoji}</div>
-      <span class="pill ${sc}" style="position:absolute;top:12px;right:12px">${sl}</span>
+      <span class="pill ${sc} badge-abs">${sl}</span>
     </div>
     <div class="agent-full-body">
       <h3>${a.name}</h3>
@@ -236,7 +236,7 @@ function wikiCard(p) {
 
 function evolutionCard(e) {
   const iconClass = { merge: 'evo-merge', split: 'evo-split', archive: 'evo-archive', evolve: 'evo-evolve' }[e.type];
-  const energyColor = e.energySide === 'savings' ? 'color:var(--green)' : 'color:var(--muted)';
+  const energyClass = e.energySide === 'savings' ? 'evo-energy--savings' : 'evo-energy--cost';
   const arrow = e.result ? ` → ${e.result}` : '';
   return `<article class="evo-card">
     <div class="evo-icon ${iconClass}">${e.icon}</div>
@@ -244,11 +244,11 @@ function evolutionCard(e) {
       <h3>${e.typeLabel}</h3>
       <div class="evo-agents">${e.agents}${arrow}</div>
       <div class="evo-reason">${e.reason}</div>
-      <div class="evo-energy" style="${energyColor}">${e.energyImpact}</div>
+      <div class="evo-energy ${energyClass}">${e.energyImpact}</div>
     </div>
     <div class="evo-actions">
-      <button class="btn-primary" style="height:34px;font-size:12px;padding:0 13px">Preview</button>
-      <button class="btn-outline" style="height:34px;font-size:12px">Dismiss</button>
+      <button class="btn-primary btn-sm">Preview</button>
+      <button class="btn-outline btn-sm">Dismiss</button>
     </div>
   </article>`;
 }
@@ -312,7 +312,7 @@ function renderHome() {
         <p>Orakai is here to help you navigate your universe.</p>
         <div class="prompt-wrap">
           <input placeholder="Ask Orakai anything…" />
-          <button class="btn-primary" style="height:38px;padding:0 15px;border-radius:11px">→</button>
+          <button class="btn-primary btn-sm">→</button>
         </div>
         <div class="chips">
           <button class="chip">📅 Plan my day</button>
@@ -364,7 +364,7 @@ function renderHome() {
       <div class="card pad">
         <div class="section-head">
           <h2>Realm Energy</h2>
-          <span class="muted small" style="cursor:default" title="Realm energy tracks computation usage">ⓘ</span>
+          <span class="muted small cursor-default" title="Realm energy tracks computation usage">ⓘ</span>
         </div>
         <div class="energy-display">
           <div class="energy-ring">${svg_ring(74, 48, 58, 116, 9)}<div class="energy-icon">⚡</div></div>
@@ -374,7 +374,7 @@ function renderHome() {
           </div>
         </div>
         <div class="energy-regen">⏱ Daily regeneration in 08:45:12</div>
-        <button class="btn-primary" style="width:100%" onclick="go('energy')">View Energy Details</button>
+        <button class="btn-primary btn-full" onclick="go('energy')">View Energy Details</button>
       </div>
 
       <div class="card pad">
@@ -409,9 +409,9 @@ function renderOrakai() {
     <div class="card chat-card">
       <div class="chat-head">
         <div class="orakai-orb">◉</div>
-        <div style="flex:1">
-          <strong style="font-size:14px">Orakai — Keeper of Lineage</strong>
-          <div class="muted small" style="margin-top:2px">Master of routing and memory efficiency</div>
+        <div class="chat-head-body">
+          <strong class="chat-head-name">Orakai — Keeper of Lineage</strong>
+          <div class="muted small mt-1">Master of routing and memory efficiency</div>
         </div>
         <span class="pill pill-green">Online</span>
       </div>
@@ -445,26 +445,26 @@ function renderOrakai() {
         <div class="agent-pill">
           <div class="agent-pill-dot" style="background:#9b7cff"></div>
           <span>Kaien</span>
-          <span class="muted small" style="margin-left:auto">5 energy</span>
+          <span class="muted small agent-pill-meta">5 energy</span>
         </div>
         <div class="agent-pill">
           <div class="agent-pill-dot" style="background:#6ed69a"></div>
           <span>Hinari</span>
-          <span class="muted small" style="margin-left:auto">3 energy</span>
+          <span class="muted small agent-pill-meta">3 energy</span>
         </div>
       </div>
 
       <div class="info-card">
         <h3>Skipped This Session</h3>
-        <div class="agent-pill" style="opacity:0.5">
+        <div class="agent-pill agent-pill--skipped">
           <div class="agent-pill-dot" style="background:#63b9ff"></div>
           <span>Soraka</span>
-          <span class="muted small" style="margin-left:auto">Not relevant</span>
+          <span class="muted small agent-pill-meta">Not relevant</span>
         </div>
-        <div class="agent-pill" style="opacity:0.5">
+        <div class="agent-pill agent-pill--skipped">
           <div class="agent-pill-dot" style="background:#f2b84b"></div>
           <span>Zenro</span>
-          <span class="muted small" style="margin-left:auto">Not relevant</span>
+          <span class="muted small agent-pill-meta">Not relevant</span>
         </div>
       </div>
 
@@ -498,67 +498,69 @@ function renderLineage() {
       <p>A navigable universe showing origins, agents, splits, merges, and dormant entities.</p>
     </div>
   </div>
-  <div class="lineage-map">
-    <svg class="lineage-svg" xmlns="http://www.w3.org/2000/svg">
-      <line x1="50%" y1="13%" x2="20%" y2="32%" stroke="rgba(109,93,252,0.22)" stroke-width="1.8" stroke-dasharray="7 5"/>
-      <line x1="50%" y1="13%" x2="80%" y2="32%" stroke="rgba(109,93,252,0.22)" stroke-width="1.8" stroke-dasharray="7 5"/>
-      <line x1="12%" y1="35%" x2="18%" y2="55%" stroke="rgba(242,184,75,0.35)" stroke-width="1.8" stroke-dasharray="7 5"/>
-      <line x1="12%" y1="35%" x2="44%" y2="55%" stroke="rgba(242,184,75,0.25)" stroke-width="1.8" stroke-dasharray="7 5"/>
-      <line x1="88%" y1="35%" x2="80%" y2="55%" stroke="rgba(99,185,255,0.35)" stroke-width="1.8" stroke-dasharray="7 5"/>
-      <line x1="88%" y1="35%" x2="82%" y2="73%" stroke="rgba(99,185,255,0.2)" stroke-width="1.8" stroke-dasharray="7 5"/>
-      <line x1="50%" y1="87%" x2="50%" y2="72%" stroke="rgba(110,214,154,0.35)" stroke-width="1.8" stroke-dasharray="7 5"/>
-    </svg>
+  <div class="lineage-scroll">
+    <div class="lineage-map">
+      <svg class="lineage-svg" xmlns="http://www.w3.org/2000/svg">
+        <line x1="50%" y1="13%" x2="20%" y2="32%" stroke="rgba(109,93,252,0.22)" stroke-width="1.8" stroke-dasharray="7 5"/>
+        <line x1="50%" y1="13%" x2="80%" y2="32%" stroke="rgba(109,93,252,0.22)" stroke-width="1.8" stroke-dasharray="7 5"/>
+        <line x1="12%" y1="35%" x2="18%" y2="55%" stroke="rgba(242,184,75,0.35)" stroke-width="1.8" stroke-dasharray="7 5"/>
+        <line x1="12%" y1="35%" x2="44%" y2="55%" stroke="rgba(242,184,75,0.25)" stroke-width="1.8" stroke-dasharray="7 5"/>
+        <line x1="88%" y1="35%" x2="80%" y2="55%" stroke="rgba(99,185,255,0.35)" stroke-width="1.8" stroke-dasharray="7 5"/>
+        <line x1="88%" y1="35%" x2="82%" y2="73%" stroke="rgba(99,185,255,0.2)" stroke-width="1.8" stroke-dasharray="7 5"/>
+        <line x1="50%" y1="87%" x2="50%" y2="72%" stroke="rgba(110,214,154,0.35)" stroke-width="1.8" stroke-dasharray="7 5"/>
+      </svg>
 
-    <div class="lnode origin" style="left:50%;top:28px;transform:translateX(-50%)">
-      <span class="lnode-icon" style="color:#6d5dfc">◈</span>
-      <span class="lnode-name">Nythera</span>
-      <span class="lnode-sub">Mystery</span>
-    </div>
-    <div class="lnode origin" style="left:3%;top:176px">
-      <span class="lnode-icon" style="color:#f2b84b">◆</span>
-      <span class="lnode-name">Kaelith</span>
-      <span class="lnode-sub">Wisdom</span>
-    </div>
-    <div class="lnode origin" style="right:3%;top:176px">
-      <span class="lnode-icon" style="color:#63b9ff">◇</span>
-      <span class="lnode-name">Veylune</span>
-      <span class="lnode-sub">Creativity</span>
-    </div>
-    <div class="lnode origin" style="left:50%;bottom:36px;transform:translateX(-50%)">
-      <span class="lnode-icon" style="color:#6ed69a">◎</span>
-      <span class="lnode-name">Solaryn</span>
-      <span class="lnode-sub">Vitality</span>
-    </div>
+      <div class="lnode origin" style="left:50%;top:28px;transform:translateX(-50%)">
+        <span class="lnode-icon" style="color:#6d5dfc">◈</span>
+        <span class="lnode-name">Nythera</span>
+        <span class="lnode-sub">Mystery</span>
+      </div>
+      <div class="lnode origin" style="left:3%;top:176px">
+        <span class="lnode-icon" style="color:#f2b84b">◆</span>
+        <span class="lnode-name">Kaelith</span>
+        <span class="lnode-sub">Wisdom</span>
+      </div>
+      <div class="lnode origin" style="right:3%;top:176px">
+        <span class="lnode-icon" style="color:#63b9ff">◇</span>
+        <span class="lnode-name">Veylune</span>
+        <span class="lnode-sub">Creativity</span>
+      </div>
+      <div class="lnode origin" style="left:50%;bottom:36px;transform:translateX(-50%)">
+        <span class="lnode-icon" style="color:#6ed69a">◎</span>
+        <span class="lnode-name">Solaryn</span>
+        <span class="lnode-sub">Vitality</span>
+      </div>
 
-    <div class="lnode" style="left:50%;top:200px;transform:translateX(-50%)">
-      <span class="lnode-icon">◉</span>
-      <span class="lnode-name">Orakai</span>
-      <span class="lnode-sub">Keeper of Lineage</span>
-    </div>
-    <div class="lnode" style="left:5%;top:352px">
-      <span class="lnode-icon">✦</span>
-      <span class="lnode-name">Kaien</span>
-      <span class="lnode-sub">Life Strategist</span>
-    </div>
-    <div class="lnode dormant" style="left:37%;top:352px">
-      <span class="lnode-icon">▥</span>
-      <span class="lnode-name">Zenro</span>
-      <span class="lnode-sub">Finance Sage · Dormant</span>
-    </div>
-    <div class="lnode" style="right:5%;top:352px">
-      <span class="lnode-icon">♫</span>
-      <span class="lnode-name">Soraka</span>
-      <span class="lnode-sub">Music Curator</span>
-    </div>
-    <div class="lnode" style="left:50%;top:484px;transform:translateX(-50%)">
-      <span class="lnode-icon">♡</span>
-      <span class="lnode-name">Hinari</span>
-      <span class="lnode-sub">Wellness Companion</span>
-    </div>
-    <div class="lnode dormant" style="right:3%;top:488px">
-      <span class="lnode-icon">✐</span>
-      <span class="lnode-name">Soryn</span>
-      <span class="lnode-sub">Creative Designer · Split Candidate</span>
+      <div class="lnode" style="left:50%;top:200px;transform:translateX(-50%)">
+        <span class="lnode-icon">◉</span>
+        <span class="lnode-name">Orakai</span>
+        <span class="lnode-sub">Keeper of Lineage</span>
+      </div>
+      <div class="lnode" style="left:5%;top:352px">
+        <span class="lnode-icon">✦</span>
+        <span class="lnode-name">Kaien</span>
+        <span class="lnode-sub">Life Strategist</span>
+      </div>
+      <div class="lnode dormant" style="left:37%;top:352px">
+        <span class="lnode-icon">▥</span>
+        <span class="lnode-name">Zenro</span>
+        <span class="lnode-sub">Finance Sage · Dormant</span>
+      </div>
+      <div class="lnode" style="right:5%;top:352px">
+        <span class="lnode-icon">♫</span>
+        <span class="lnode-name">Soraka</span>
+        <span class="lnode-sub">Music Curator</span>
+      </div>
+      <div class="lnode" style="left:50%;top:484px;transform:translateX(-50%)">
+        <span class="lnode-icon">♡</span>
+        <span class="lnode-name">Hinari</span>
+        <span class="lnode-sub">Wellness Companion</span>
+      </div>
+      <div class="lnode dormant" style="right:3%;top:488px">
+        <span class="lnode-icon">✐</span>
+        <span class="lnode-name">Soryn</span>
+        <span class="lnode-sub">Creative Designer · Split Candidate</span>
+      </div>
     </div>
   </div>`;
 }
@@ -579,17 +581,17 @@ function renderWiki() {
   const cards = wikiPages.map(wikiCard).join('');
   return `<div class="page-title">
     <div>
-      <h1>Wikis</h1>
+      <h1>Memories</h1>
       <p>User-managed knowledge base. Approve documents so agents can reference them to improve their responses.</p>
     </div>
-    <button class="btn-primary">+ New Wiki Page</button>
+    <button class="btn-primary">+ New Page</button>
   </div>
   <div class="wiki-search">
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="color:var(--muted);flex-shrink:0">
       <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/>
       <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
     </svg>
-    <input placeholder="Search wikis by title, tag, or agent…" aria-label="Search wikis" />
+    <input placeholder="Search by title, tag, or agent…" aria-label="Search memories" />
   </div>
   <div class="wiki-grid">${cards}</div>`;
 }
@@ -619,7 +621,7 @@ function renderEnergy() {
   </div>
   <div class="energy-layout">
     <div class="card energy-summary-card">
-      <div class="energy-big-ring">${svg_ring(74, 64, 78, 156, 11)}<div class="energy-big-num">74%</div></div>
+      <div class="energy-big-ring">${svg_ring(74, 58, 70, 140, 10)}<div class="energy-big-num">74%</div></div>
       <div class="energy-center-label">
         <strong>740 / 1000</strong>
         <div class="muted small" style="margin-top:3px">Realm Energy</div>
@@ -633,7 +635,7 @@ function renderEnergy() {
       </div>
     </div>
 
-    <div style="display:grid;gap:18px">
+    <div class="energy-right-col">
       <div class="card chart-card">
         <div class="chart-title">Weekly Energy Usage</div>
         <div class="bar-chart">${bars}</div>
@@ -696,17 +698,33 @@ function renderSettings() {
   </div>`;
 }
 
+function renderTools() {
+  return `<div class="page-title">
+    <div>
+      <h1>Tools</h1>
+      <p>Connect integrations, external services, and automation workflows to your Anvaya agents.</p>
+    </div>
+  </div>
+  <div class="coming-soon">
+    <div class="coming-soon-icon">🔧</div>
+    <h2>Integrations coming soon</h2>
+    <p>Connect your agents to external services — calendars, note apps, music APIs, financial tools, and more. Tools will be available in a future update.</p>
+    <button class="btn-primary" style="margin-top:8px">Join the waitlist</button>
+  </div>`;
+}
+
 // ===== ROUTING =====
 
 const pages = [
-  { id: 'home',       label: 'Home',       sub: 'Dashboard',    icon: '⌂',  render: renderHome },
-  { id: 'orakai',     label: 'Orakai',     sub: 'Master Agent', icon: '◉',  render: renderOrakai },
-  { id: 'agents',     label: 'Agents',     sub: 'My Companions',icon: '◈',  render: renderAgents },
-  { id: 'lineage',    label: 'Universe',   sub: 'Lineage Map',  icon: '✣',  render: renderLineage },
-  { id: 'evolutions', label: 'Evolutions', sub: 'Merge & Split', icon: '✦', render: renderEvolutions },
-  { id: 'wiki',       label: 'Wikis',      sub: 'Knowledge Vault', icon: '▣', render: renderWiki },
-  { id: 'energy',     label: 'Energy',     sub: 'Realm Power',  icon: '⚡',  render: renderEnergy },
-  { id: 'settings',   label: 'Settings',   sub: 'Preferences',  icon: '⚙',  render: renderSettings }
+  { id: 'home',       label: 'Home',       sub: 'Dashboard',       icon: '⌂',  render: renderHome },
+  { id: 'orakai',     label: 'Orakai',     sub: 'Master Agent',    icon: '◉',  render: renderOrakai },
+  { id: 'agents',     label: 'Agents',     sub: 'My Companions',   icon: '◈',  render: renderAgents },
+  { id: 'lineage',    label: 'Universe',   sub: 'Lineage Map',     icon: '✣',  render: renderLineage },
+  { id: 'evolutions', label: 'Evolutions', sub: 'Merge & Split',   icon: '✦',  render: renderEvolutions },
+  { id: 'wiki',       label: 'Memories',   sub: 'Knowledge Vault', icon: '▣',  render: renderWiki },
+  { id: 'tools',      label: 'Tools',      sub: 'Integrations',    icon: '⚙',  render: renderTools },
+  { id: 'energy',     label: 'Energy',     sub: 'Realm Power',     icon: '⚡',  render: renderEnergy },
+  { id: 'settings',   label: 'Settings',   sub: 'Preferences',     icon: '⚙',  render: renderSettings }
 ];
 
 function go(id) {
@@ -742,6 +760,7 @@ function init() {
     </button>`
   ).join('');
 
+  // Bottom nav shows first 5 items
   document.getElementById('bottomNav').innerHTML = pages.slice(0, 5).map(p => `
     <button class="bn-item" data-page="${p.id}" onclick="go('${p.id}')">
       <div class="bn-icon">${p.icon}</div>
